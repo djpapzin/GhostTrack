@@ -1,8 +1,8 @@
 """
-GhostTrack Web UI (Flask)
+O Kae Web UI (Flask)
 
-This Flask app provides a simple, modern web interface for the existing
-GhostTrack CLI functionalities:
+O Kae (Setswana: "Where are you?") is a lightweight OSINT toolkit with a
+modern Flask web interface. It wraps the same core lookups found in the CLI:
 - IP Tracker (ipwho.is)
 - Show Your IP (ipify)
 - Phone Number Tracker (phonenumbers)
@@ -13,7 +13,7 @@ Notes for Solo Dev (Windows/Render):
 - Designed to be CPU-friendly and to run locally on Windows 10.
 - Render.com deployment is supported; add a Procfile/gunicorn later if needed.
 
-Author: Adapted for web UI by Cascade assistant
+Attribution: This project is a fork and adaptation of "GhostTrack" by HunxByts.
 """
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ app = Flask(__name__)
 
 # User-Agent header for external requests
 HTTP_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) GhostTrack-WebUI"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) O-Kae-WebUI"
 }
 
 # Timeout (seconds) for outgoing HTTP requests
