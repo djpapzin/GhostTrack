@@ -80,13 +80,13 @@ def IP_Track():
 @is_option
 def phoneGW():
     User_phone = input(
-        f"\n {Wh}Enter phone number target {Gr}Ex [+6281xxxxxxxxx] {Wh}: {Gr}")  # INPUT NUMBER PHONE
-    default_region = "ID"  # DEFAULT NEGARA INDONESIA
+        f"\n {Wh}Enter phone number target {Gr}Ex [+27xxxxxxxxx] {Wh}: {Gr}")  # INPUT NUMBER PHONE
+    default_region = "ZA"  # DEFAULT COUNTRY SOUTH AFRICA
 
     parsed_number = phonenumbers.parse(User_phone, default_region)  # VARIABLE PHONENUMBERS
     region_code = phonenumbers.region_code_for_number(parsed_number)
     jenis_provider = carrier.name_for_number(parsed_number, "en")
-    location = geocoder.description_for_number(parsed_number, "id")
+    location = geocoder.description_for_number(parsed_number, "en")
     is_valid_number = phonenumbers.is_valid_number(parsed_number)
     is_possible_number = phonenumbers.is_possible_number(parsed_number)
     formatted_number = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
@@ -266,7 +266,7 @@ def option():
     / /_/ / / / / /_/ (__  ) /_/_____/ / / /  / /_/ / /__/ ,<   
     \____/_/ /_/\____/____/\__/     /_/ /_/   \__,_/\___/_/|_| 
 
-              {Wh}[ + ]  C O D E   B Y  H U N X  [ + ]
+              {Wh}[ + ]  O K A E   C L I  - Fork of GhostTrack by HunxByts  [ + ]
     """)
 
     stderr.writelines(f"\n\n\n{option_text()}")
@@ -278,8 +278,8 @@ def run_banner():
     stderr.writelines(f"""{Wh}
          .-.
        .'   `.          {Wh}--------------------------------
-       :g g   :         {Wh}| {Gr}GHOST - TRACKER - IP ADDRESS {Wh}|
-       : o    `.        {Wh}|       {Gr}@CODE BY HUNXBYTS      {Wh}|
+       :g g   :         {Wh}| {Gr}O KAE - \"WHERE ARE YOU?\" {Wh}|
+       : o    `.        {Wh}| {Gr}Fork of GhostTrack by HunxByts {Wh}|
       :         ``.     {Wh}--------------------------------
      :             `.
     :  :         .   `.
