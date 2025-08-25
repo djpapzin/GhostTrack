@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GhostTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="/asset/bn.png" alt="GhostTrack" />
+      <div class="brand-text">
+        <h1>GhostTrack</h1>
+        <p>OSINT toolkit — IP, Phone, Username lookup</p>
+      </div>
+    </div>
+    <nav class="tabs">
+      <a href="#ip" class="tab {{ 'active' if active_tab == 'ip' else '' }}">IP Tracker</a>
+      <a href="#yourip" class="tab {{ 'active' if active_tab == 'yourip' else '' }}">Your IP</a>
+      <a href="#phone" class="tab {{ 'active' if active_tab == 'phone' else '' }}">Phone</a>
+      <a href="#username" class="tab {{ 'active' if active_tab == 'username' else '' }}">Username</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="app-footer">
+    <p>GhostTrack Web UI • Built with Flask</p>
+  </footer>
+
+  <script>
+    // Handle tab navigation by scrolling to anchors
+    document.querySelectorAll('.tab').forEach((el) => {
+      el.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

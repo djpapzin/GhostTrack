@@ -51,3 +51,55 @@ on this menu you can search for information from the target username on social m
 <summary>:zap: Author :</summary>
 - <strong><a href="https://github.com/HunxByts">HunxByts</a></strong>
 </details>
+
+---
+
+## Web UI (Flask)
+
+GhostTrack now includes a simple, modern web interface built with Flask. It wraps the same features as the CLI:
+
+- IP Tracker (ipwho.is)
+- Your IP (ipify)
+- Phone Number Tracker (phonenumbers)
+- Username Tracker (checks common platforms)
+
+### Quick start (Windows PowerShell)
+
+```
+# create and activate virtual environment
+py -3 -m venv .venv
+.\.venv\Scripts\python -m pip install --upgrade pip
+.\.venv\Scripts\python -m pip install -r requirements.txt
+
+# run the web app
+.\.venv\Scripts\python app.py
+
+# open in browser
+http://127.0.0.1:5000
+```
+
+Environment variables (optional):
+
+- `HOST` (default `127.0.0.1`)
+- `PORT` (default `5000`)
+- `FLASK_DEBUG` (default `1` for development)
+
+Example:
+
+```
+$env:HOST = "0.0.0.0"; $env:PORT = "5000"; $env:FLASK_DEBUG = "1"; .\.venv\Scripts\python app.py
+```
+
+### Notes
+
+- All network lookups use public endpoints; rate limits may apply.
+- Keep secrets (if added later) in environment variables; never commit them.
+- `.venv/` is local to your machine and should not be committed.
+
+### Deploying on Render (brief)
+
+- Create a New Web Service from this repo.
+- Build command: `pip install -r requirements.txt`
+- Start command (option 1): `python app.py`
+- Or (option 2, recommended): add `gunicorn` and use `gunicorn app:app`.
+- Ensure the service exposes the `PORT` environment variable (Render sets it).

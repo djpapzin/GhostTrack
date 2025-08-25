@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% block content %}
+  <!-- IP TRACKER -->
+  <section id="ip" class="card">
+    <h2>IP Tracker</h2>
+    <form action="{{ url_for('track_ip') }}" method="post" class="form-grid">
+      <div class="form-row">
+        <label for="ip">IP address</label>
+        <input type="text" id="ip" name="ip" placeholder="8.8.8.8" value="{{ ip_input or '' }}" required />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Lookup</button>
+      </div>
+    </form>
+
+    {% if ip_error %}
+      <div class="alert error">{{ ip_error }}</div>
+    {% endif %}
+
+    {% if ip_data %}
+      <div class="results">
+        <div class="grid-2">
+          <div>
+            <h3>Summary</h3>
+            <table class="meta">
+              <tbody>
+                <tr><th>IP</th><td>{{ ip_input }}</td></tr>
+                <tr><th>Type</th><td>{{ ip_data.type }}</td></tr>
+                <tr><th>Country</th><td>{{ ip_data.country }} ({{ ip_data.country_code }})</td></tr>
+                <tr><th>Region</th><td>{{ ip_data.region }} ({{ ip_data.region_code }})</td></tr>
+                <tr><th>City</th><td>{{ ip_data.city }}</td></tr>
+                <tr><th>Continent</th><td>{{ ip_data.continent }} ({{ ip_data.continent_code }})</td></tr>
+                <tr><th>Postal</th><td>{{ ip_data.postal }}</td></tr>
+                <tr><th>EU</th><td>{{ ip_data.is_eu }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h3>Geo</h3>
+            <table class="meta">
+              <tbody>
+                <tr><th>Latitude</th><td>{{ ip_data.latitude }}</td></tr>
+                <tr><th>Longitude</th><td>{{ ip_data.longitude }}</td></tr>
+                <tr><th>Map</th><td>
+                  {% if ip_maps_url %}
+                    <a href="{{ ip_maps_url }}" target="_blank" rel="noopener">Open in Google Maps</a>
+                  {% else %}
+                    -
+                  {% endif %}
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <h3>Connection</h3>
+            <table class="meta">
+              <tbody>
+                <tr><th>ASN</th><td>{{ ip_data.connection.asn }}</td></tr>
+                <tr><th>ORG</th><td>{{ ip_data.connection.org }}</td></tr>
+                <tr><th>ISP</th><td>{{ ip_data.connection.isp }}</td></tr>
+                <tr><th>Domain</th><td>{{ ip_data.connection.domain }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h3>Timezone</h3>
+            <table class="meta">
+              <tbody>
+                <tr><th>ID</th><td>{{ ip_data.timezone.id }}</td></tr>
+                <tr><th>Abbr</th><td>{{ ip_data.timezone.abbr }}</td></tr>
+                <tr><th>DST</th><td>{{ ip_data.timezone.is_dst }}</td></tr>
+                <tr><th>Offset</th><td>{{ ip_data.timezone.offset }}</td></tr>
+                <tr><th>UTC</th><td>{{ ip_data.timezone.utc }}</td></tr>
+                <tr><th>Current time</th><td>{{ ip_data.timezone.current_time }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- YOUR IP -->
+  <section id="yourip" class="card">
+    <h2>Your IP</h2>
+    <form action="{{ url_for('your_ip') }}" method="get" class="form-grid">
+      <div class="form-actions">
+        <button type="submit" class="btn">Show My IP</button>
+      </div>
+    </form>
+    {% if your_ip_error %}
+      <div class="alert error">{{ your_ip_error }}</div>
+    {% endif %}
+    {% if your_ip %}
+      <div class="result-badge">
+        <span>Your public IP:</span>
+        <strong>{{ your_ip }}</strong>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- PHONE TRACKER -->
+  <section id="phone" class="card">
+    <h2>Phone Number Tracker</h2>
+    <form action="{{ url_for('track_phone') }}" method="post" class="form-grid">
+      <div class="form-row">
+        <label for="phone">Phone number</label>
+        <input type="text" id="phone" name="phone" placeholder="+27xxxxxxxxx" required />
+      </div>
+      <div class="form-row">
+        <label for="region">Default region</label>
+        <select id="region" name="region">
+          {% set _region = selected_region or 'ZA' %}
+          <option value="ZA" {{ 'selected' if _region == 'ZA' else '' }}>ZA — South Africa</option>
+          <option value="ID" {{ 'selected' if _region == 'ID' else '' }}>ID — Indonesia</option>
+          <option value="US" {{ 'selected' if _region == 'US' else '' }}>US — United States</option>
+          <option value="GB" {{ 'selected' if _region == 'GB' else '' }}>GB — United Kingdom</option>
+          <option value="IN" {{ 'selected' if _region == 'IN' else '' }}>IN — India</option>
+          <option value="BR" {{ 'selected' if _region == 'BR' else '' }}>BR — Brazil</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Analyze</button>
+      </div>
+    </form>
+
+    {% if phone_error %}
+      <div class="alert error">{{ phone_error }}</div>
+    {% endif %}
+
+    {% if phone_result %}
+      <div class="results">
+        <div class="grid-2">
+          <div>
+            <h3>General</h3>
+            <table class="meta">
+              <tbody>
+                <tr><th>Location</th><td>{{ phone_result.location }}</td></tr>
+                <tr><th>Region code</th><td>{{ phone_result.region_code }}</td></tr>
+                <tr><th>Timezone</th><td>{{ phone_result.timezone }}</td></tr>
+                <tr><th>Operator</th><td>{{ phone_result.operator }}</td></tr>
+                <tr><th>Valid</th><td>{{ phone_result.is_valid }}</td></tr>
+                <tr><th>Possible</th><td>{{ phone_result.is_possible }}</td></tr>
+                <tr><th>Type</th><td>{{ phone_result.type_label }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <h3>Formatting</h3>
+            <table class="meta">
+              <tbody>
+                <tr><th>International</th><td>{{ phone_result.intl }}</td></tr>
+                <tr><th>E.164</th><td>{{ phone_result.e164 }}</td></tr>
+                <tr><th>Mobile dial</th><td>{{ phone_result.mobile_format }}</td></tr>
+                <tr><th>Country code</th><td>{{ phone_result.country_code }}</td></tr>
+                <tr><th>Local number</th><td>{{ phone_result.local_number }}</td></tr>
+                <tr><th>Original</th><td>{{ phone_result.original }}</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- USERNAME TRACKER -->
+  <section id="username" class="card">
+    <h2>Username Tracker</h2>
+    <form action="{{ url_for('track_username') }}" method="post" class="form-grid">
+      <div class="form-row">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="target_handle" value="{{ username or '' }}" required />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Check</button>
+      </div>
+    </form>
+
+    {% if username_error %}
+      <div class="alert error">{{ username_error }}</div>
+    {% endif %}
+
+    {% if username_results %}
+      <div class="results">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Site</th>
+              <th>Profile</th>
+              <th>HTTP</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for row in username_results %}
+            <tr class="{{ 'found' if row.found else 'not-found' }}">
+              <td>
+                {% if row.found %}
+                  <span class="badge success">Found</span>
+                {% else %}
+                  <span class="badge">Not found</span>
+                {% endif %}
+              </td>
+              <td>{{ row.name }}</td>
+              <td>
+                {% if row.found %}
+                  <a href="{{ row.url }}" target="_blank" rel="noopener">{{ row.url }}</a>
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>{{ row.status if row.status is not none else '-' }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="card muted">
+    <p class="disclaimer">This interface uses public data sources (ipwho.is, ipify, etc.). Always respect privacy and local laws when performing OSINT. Network calls can be rate-limited by providers.</p>
+  </section>
+{% endblock %}
